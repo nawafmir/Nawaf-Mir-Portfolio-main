@@ -247,16 +247,15 @@ window.addEventListener("scroll", () => {
   lastScrollY = currentScrollY;
 });
 
-// Active Navigation Link
-window.addEventListener("scroll", () => {
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks = document.querySelectorAll(".nav-link");
+// Active Navigation Link & Navbar background on Scroll
+const navLinks = document.querySelectorAll(".nav-link");
+const sections = document.querySelectorAll("section[id]");
 
+window.addEventListener("scroll", () => {
   let currentSection = "";
 
   sections.forEach((section) => {
     const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
 
     if (scrollY >= sectionTop - 200) {
       currentSection = section.getAttribute("id");
@@ -269,6 +268,18 @@ window.addEventListener("scroll", () => {
       link.classList.add("active");
     }
   });
+
+  // Navbar background on scroll logic from the other listener
+  const navbar = document.querySelector(".navbar");
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > 100) {
+    navbar.style.background = "rgba(15, 23, 42, 0.98)";
+    navbar.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.1)";
+  } else {
+    navbar.style.background = "rgba(15, 23, 42, 0.95)";
+    navbar.style.boxShadow = "none";
+  }
 });
 
 // Contact Form - Commented out as there is no form with class 'contact-form' in index.html
@@ -303,8 +314,7 @@ document.querySelector('.contact-form').addEventListener('submit', function(e) {
 */
 
 // Add active class to nav links
-const navLinks = document.querySelectorAll(".nav-link");
-navLinks.forEach((link) => {
+document.querySelectorAll(".nav-link").forEach((link) => {
   link.addEventListener("click", function () {
     navLinks.forEach((l) => l.classList.remove("active"));
     this.classList.add("active");
@@ -315,15 +325,3 @@ navLinks.forEach((link) => {
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(typeWriter, 1000);
 });
-
-// Add CSS for active nav link
-const style = document.createElement("style");
-style.textContent = `
-    .nav-link.active {
-        color: var(--primary-color) !important;
-    }
-    .nav-link.active::after {
-        width: 100% !important;
-    }
-`;
-document.head.appendChild(style);
